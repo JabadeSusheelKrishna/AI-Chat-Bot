@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Themed Chat</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e2f;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #2c2c3c;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        .messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-bottom: 1px solid #3a3a4a;
+        }
+        .message {
+            margin-bottom: 15px;
+        }
+        .message:last-child {
+            margin-bottom: 0;
+        }
+        .username {
+            font-weight: bold;
+            color: #00aaff;
+        }
+        .timestamp {
+            font-size: 0.8em;
+            color: #aaa;
+        }
+        .text {
+            margin-top: 5px;
+            padding: 10px;
+            background-color: #373751;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background-color: #3a3a4a;
+        }
+        .input-container input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2c2c3c;
+            color: #fff;
+        }
+        .input-container input[type="text"]::placeholder {
+            color: #888;
+        }
+        .input-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00aaff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .input-container button:hover {
+            background-color: #007acc;
+        }
+        .input-container input:focus, .input-container button:focus {
+            outline: none;
+        }
+
+        @media (max-width: 600px) {
+            .input-container input[type="text"] {
+                padding: 8px;
+                margin-right: 5px;
+            }
+            .input-container button {
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .input-container {
+                flex-direction: column;
+            }
+            .input-container input[type="text"] {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .input-container button {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="messages" id="messageContainer">
+            {% for message in messages %}
+                <div class="message">
+                    <div class="username">{{ message.username }} <span class="timestamp">{{ message.timestamp }}</span></div>
+                    <div class="text">{{ message.text }}</div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="input-container">
+            <input type="text" id="username" placeholder="Username" value="User1">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const username = document.getElementById('username').value;
+            const text = document.getElementById('messageInput').value;
+
+            if (text.trim() === '') return;
+
+            fetch('/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `username=${encodeURIComponent(username)}&text=${encodeURIComponent(text)}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageContainer = document.getElementById('messageContainer');
+                messageContainer.innerHTML = ''; // Clear the container
+
+                // Render all messages
+                data.messages.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message');
+                    messageDiv.innerHTML = `<div class="username">${message.username} <span class="timestamp">${message.timestamp}</span></div><div class="text">${message.text}</div>`;
+                    messageContainer.appendChild(messageDiv);
+                });
+
+                // Clear input
+                document.getElementById('messageInput').value = '';
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            });
+        }
+    </script>
+</body>
+</html>
