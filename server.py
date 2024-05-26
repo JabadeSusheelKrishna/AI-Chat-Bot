@@ -8,7 +8,7 @@ app = Flask(__name__)
 messages = []
 
 # Initializing Username
-UserName = "uuu"
+UserName = "user1"
 
 genai.configure(api_key='AIzaSyDn2cA_MQJ4_W0OrsVYtOHY8FqUt3atPGU')
 model = genai.GenerativeModel(model_name="gemini-pro")

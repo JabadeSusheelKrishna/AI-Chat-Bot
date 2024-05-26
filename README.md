@@ -1,6 +1,8 @@
 # AI-Chat-Bot
 This is an AI Chat Bot Developed Using Gemini AI Pro.
 
+![Gemini Image](https://www.google.com/imgres?q=gemini%20AI&imgurl=https%3A%2F%2Fstorage.googleapis.com%2Fgweb-uniblog-publish-prod%2Fimages%2FGemini_SS.width-1300.jpg&imgrefurl=https%3A%2F%2Fblog.google%2Ftechnology%2Fai%2Fgoogle-gemini-ai%2F&docid=2ETpvbsXr1oktM&tbnid=VMTTu47_-8HzQM&vet=12ahUKEwiZ2or2l6uGAxVKma8BHYejCQQQM3oECBwQAA..i&w=1300&h=731&hcb=2&ved=2ahUKEwiZ2or2l6uGAxVKma8BHYejCQQQM3oECBwQAA)
+
 ### Instructions to run
 - Clone the repository by running the following command : 
 ```
@@ -15,6 +17,7 @@ cd AI-Chat-Bot
 pip3 install Flask
 pip3 install -U google-generativeai
 ```
+- Add your Gemini API Key in `server.py Line 13`. To avail Gemini API keys please visit [Gemini Documentation](https://ai.google.dev/gemini-api/docs/api-key?_gl=1*agejki*_up*MQ..&gclid=Cj0KCQjwu8uyBhC6ARIsAKwBGpQ0cdU2E1tZsmufWrn8Xk9cj-_qTFUeVVn5veLzmC9rQikXO8ghbGcaAmZNEALw_wcB)
 - Now we need to run the server. to do that try following command : 
 ```
 python3 server.py
